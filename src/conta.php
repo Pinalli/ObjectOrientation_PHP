@@ -7,17 +7,24 @@ https://pt.wikipedia.org/wiki/Programa%C3%A7%C3%A3o_orientada_a_objetos#Encapsul
 
 class Conta
 {
-    private string $cpf;
-    private string $nome;
-    private float $saldo = 0;
 
-    public function __construct(string $cpf, string $nome)
+    private  $titular;
+    private  $saldo;
+    private static $numeroDeContas = 0;
+
+    public function __construct(Titular $titular)
     {
-        $this -> cpf = $cpf;
-        $this -> nome = $nome;
+        $this->titular = $titular;
         $this -> saldo = 0;
+
+        self::$numeroDeContas++;
     }
 
+    public function __destruct()
+    {
+        self::$numeroDeContas--; 
+    }
+    
     public function sacar(float $valorSaque)
     {
        if($valorSaque > $this -> saldo){
@@ -48,19 +55,25 @@ class Conta
             $contaDestino -> depositar($valorTranferencia);
         }
 
-    public function mostraSaldo(): float
+    public function getSaldo(): float
     {
        return $this -> saldo; 
     }
 
-    public function mostraNome(): string
+    public function getNomeTitular(): string
     {
-      return $this -> nome ; 
+        return $this->titular ->getNome();
     }
 
-    public function mostraCPF(): string
+    public function getCpf(): string
     {
-      return $this -> cpf; 
+       return $this ->cpf -> getCpf();
+    }
+
+   
+    public static function getNumContas():int
+    {
+        return self::$numeroDeContas;
     }
 }
     
